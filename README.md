@@ -15,7 +15,7 @@ This is a cross-platform, GUI-based subnet calculator built with PyQt5. It suppo
   - Define host count for each subnet
   - Click "Calculate Optimal VLSM" for an accurate, waste-free allocation
 
-- 📊 **VLSM Results**
+- **VLSM Results**
   - Subnet summary table (name, range, mask, etc.)
   - Full IP list for each subnet (usable IPs)
   - Live filter/search box to find any IP or subnet
