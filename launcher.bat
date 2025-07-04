@@ -23,14 +23,14 @@ pip install pyqt5 numpy >nul 2>&1
 
 echo 🚀 Launching Subnet Calculator...
 
-if not exist subnet.py (
+if not exist vlsmwiz.py (
     echo ❌ Error: subnet_calculator.py not found in this folder.
     echo Make sure this launcher is placed in the same directory.
     pause
     exit /b
 )
 
-python subnet.py
+python vlsmwiz.py
 
 echo ✅ Done.
 pause

@@ -17,9 +17,9 @@ pip install --upgrade pip > /dev/null 2>&1
 pip install pyqt5 numpy > /dev/null 2>&1
 
 echo "🚀 Launching Subnet Calculator..."
-if [ ! -f subnet.py ]; then
+if [ ! -f vlsmwiz.py ]; then
     echo "❌ subnet_calculator.py not found in the current directory."
     exit 1
 fi
 
-python subnet_calculator.py
+python vlsmwiz.py
