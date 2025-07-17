@@ -1,0 +1,301 @@
+OS,Command,Function
+Windows,active,Activates a disk partition.
+Windows,add,Adds a new user or group to the system.
+Windows,add alias,Creates an alias for a command.
+Windows,add volume,Adds a new volume to a disk.
+Windows,adprep,Prepares a Windows forest and domains for a new Windows Server operating system.
+Windows,append,Appends data to a file.
+Windows,arp,Displays and modifies the IP-to-Physical address translation tables used by address resolution protocol (ARP).
+Windows,assign,Assigns a drive letter or mount point to a volume.
+Windows,assoc,Displays or modifies file extension associations.
+Windows,at,Schedules commands and programs to run on a computer at a specified time and date.
+Windows,atmadm,Manages ATM connections.
+Windows,attach-vdisk,Attaches a virtual hard disk (VHD) file.
+Windows,attrib,Displays or changes file attributes.
+Windows,attributes,Displays or changes file or directory attributes.
+Windows,attributes disk,Displays or changes disk attributes.
+Windows,attributes volume,Displays or changes volume attributes.
+Windows,auditpol,Displays or changes audit policies.
+Windows,auditpol backup,Backs up audit policies.
+Windows,auditpol clear,Clears audit policies.
+Windows,auditpol get,Gets audit policies.
+Windows,auditpol list,Lists audit policies.
+Windows,auditpol remove,Removes audit policies.
+Windows,auditpol resourcesacl,Manages audit policy resources ACLs.
+Windows,auditpol restore,Restores audit policies.
+Windows,auditpol set,Sets audit policies.
+Windows,autochk,Checks the integrity of a file system.
+Windows,autoconv,Converts file systems.
+Windows,autofmt,Formats file systems.
+Windows,automount,Enables or disables automatic mounting of new volumes.
+Windows,bcdboot,Creates or repairs a system partition.
+Windows,bcdedit,Manages boot configuration data.
+Windows,bdehdcfg,Prepares a hard disk for BitLocker Drive Encryption.
+Windows,bdehdcfg driveinfo,Displays information about a drive.
+Windows,bdehdcfg newdriveletter,Assigns a new drive letter to a volume.
+Windows,bdehdcfg quiet,Runs bdehdcfg in quiet mode.
+Windows,bdehdcfg restart,Restarts the computer after bdehdcfg completes.
+Windows,bdehdcfg size,Specifies the size of the system partition.
+Windows,bdehdcfg target,Specifies the target drive for BitLocker.
+Windows,begin backup,Begins a backup operation.
+Windows,begin restore,Begins a restore operation.
+Windows,bitsadmin,Manages Background Intelligent Transfer Service (BITS) jobs.
+Windows,bitsadmin addfile,Adds a file to a BITS job.
+Windows,bitsadmin addfileset,Adds a set of files to a BITS job.
+Windows,bitsadmin addfilewithranges,Adds a file with ranges to a BITS job.
+Windows,bitsadmin cache,Manages the BITS cache.
+Windows,bitsadmin cache and delete,Deletes a file from the BITS cache.
+Windows,bitsadmin cache and deleteurl,Deletes a URL from the BITS cache.
+Windows,bitsadmin cache and getexpirationtime,Gets the expiration time of a file in the BITS cache.
+Windows,bitsadmin cache and getlimit,Gets the size limit of the BITS cache.
+Windows,bitsadmin cache and help,Displays help for bitsadmin cache.
+Windows,bitsadmin cache and info,Displays information about the BITS cache.
+Windows,bitsadmin cache and list,Lists files in the BITS cache.
+Windows,bitsadmin cache and setexpirationtime,Sets the expiration time of a file in the BITS cache.
+Windows,bitsadmin cache and setlimit,Sets the size limit of the BITS cache.
+Windows,bitsadmin cache and clear,Clears the BITS cache.
+Windows,bitsadmin cancel,Cancels a BITS job.
+Windows,bitsadmin complete,Completes a BITS job.
+Windows,bitsadmin create,Creates a BITS job.
+Windows,bitsadmin examples,Displays examples for bitsadmin.
+Windows,bitsadmin getaclflags,Gets the ACL flags of a BITS job.
+Windows,bitsadmin getbytestotal,Gets the total bytes of a BITS job.
+Windows,bitsadmin getbytestransferred,Gets the transferred bytes of a BITS job.
+Windows,bitsadmin getclientcertificate,Gets the client certificate of a BITS job.
+Windows,bitsadmin getcompletiontime,Gets the completion time of a BITS job.
+Windows,bitsadmin getcreationtime,Gets the creation time of a BITS job.
+Windows,bitsadmin getcustomheaders,Gets the custom headers of a BITS job.
+Windows,bitsadmin getdescription,Gets the description of a BITS job.
+Windows,bitsadmin getdisplayname,Gets the display name of a BITS job.
+Windows,bitsadmin geterror,Gets the error of a BITS job.
+Windows,bitsadmin geterrorcount,Gets the error count of a BITS job.
+Windows,bitsadmin getfilestotal,Gets the total files of a BITS job.
+Windows,bitsadmin getfilestransferred,Gets the transferred files of a BITS job.
+Windows,bitsadmin gethelpertokenflags,Gets the helper token flags of a BITS job.
+Windows,bitsadmin gethelpertokensid,Gets the helper token SID of a BITS job.
+Windows,bitsadmin gethttpmethod,Gets the HTTP method of a BITS job.
+Windows,bitsadmin getmaxdownloadtime,Gets the maximum download time of a BITS job.
+Windows,bitsadmin getminretrydelay,Gets the minimum retry delay of a BITS job.
+Windows,color,Changes the default console foreground and background colors.
+Windows,comp,Compares the content of two or more files.
+Windows,compact,Displays or alters the compression of files or directories on NTFS partitions.
+Windows,copy,Copies one or more files to another location.
+Windows,date,Displays or sets the date.
+Windows,defrag,Defragments fragmented files on local volumes.
+Windows,del and erase,Deletes one or more files.
+Windows,dir,Displays a list of files and subdirectories in a directory.
+Windows,diskpart,Manages disk partitions.
+Windows,DISM,Deploys and services Windows images.
+Windows,doskey,"Edits command lines, recalls Windows commands, and creates macros."
+Windows,driverquery,Displays a list of installed device drivers and their properties.
+Windows,echo,"Displays messages, or turns command echoing on or off."
+Windows,exit,Quits the CMD.EXE program (command interpreter) or the current batch script.
+Windows,fc,Compares two files or sets of files and displays the differences between them.
+Windows,find,Searches for a text string in a file or files.
+Windows,findstr,Searches for strings in files.
+Windows,ftype,Displays or modifies file types used in file extension associations.
+Windows,getmac,Displays the Media Access Control (MAC) address and list of network protocols associated with each address for all network cards in each computer.
+Windows,help,Displays help for Windows commands.
+Windows,hostname,Displays the host name portion of the full computer name.
+Windows,ipconfig,Displays all current TCP/IP network configuration values and refreshes Dynamic Host Configuration Protocol (DHCP) and Domain Name System (DNS) settings.
+Windows,label,"Creates, changes, or deletes the volume label of a disk."
+Windows,makecab,Creates cabinet files.
+Windows,md and mkdir,Creates a directory or subdirectory.
+Windows,mklink,Creates symbolic links and hard links.
+Windows,more,Displays output one screen at a time.
+Windows,mountvol,"Displays, creates, or deletes a volume mount point."
+Windows,move,Moves one or more files from one directory to another directory.
+Windows,msiexec,"Installs, modifies, or performs maintenance on Windows Installer packages."
+Windows,msinfo32,"Displays a comprehensive summary of your system hardware, system components, and software environment."
+Windows,mstsc,Creates or opens a Remote Desktop Protocol (.rdp) file.
+Windows,net Commands,A collection of commands for managing network resources.
+Windows,netstat,"Displays active TCP connections, ports on which the computer is listening, Ethernet statistics, the IP routing table, IPv4 statistics, and IPv6 statistics."
+Windows,nslookup,Displays information that you can use to diagnose Domain Name System (DNS) infrastructure.
+Windows,path,Displays or sets a search path for executable files.
+Windows,ping,Verifies IP-level connectivity to another TCP/IP computer.
+Windows,powercfg,Controls power settings on a system.
+Windows,powershell,Starts Windows PowerShell.
+Windows,prompt,Changes the cmd.exe command prompt.
+Windows,rd and rmdir,Deletes a directory.
+Windows,ren and rename,Renames a file or files.
+Windows,robocopy,Robust File Copy.
+Windows,route,Displays or modifies the entries in the local IP routing table.
+Windows,sc,Communicates with the Service Control Manager.
+Windows,schtasks,Schedules commands and programs to run on a computer at specified times.
+Linux,ls,"Lists the content of a folder, including files and directories."
+Linux,Example,ls -a (lists all files including hidden ones)
+Linux,pwd,Checks the full path of your current working directory.
+Linux,Example,pwd -L (prints environment variable content)
+Linux,cd,Navigates between directories.
+Linux,Example,cd .. (moves one directory up)
+Linux,mkdir,Creates one or multiple directories.
+Linux,Example,mkdir new_folder (creates a new folder named new_folder)
+Linux,rmdir,Deletes empty directories.
+Linux,Example,rmdir my_empty_folder (deletes the empty folder)
+Linux,rm,Deletes files from a directory.
+Linux,Example,rm file.txt (deletes file.txt)
+Linux,cp,Copies files from your current directory to another folder.
+Linux,Example,cp file1.txt /path/to/target_file (copies file1.txt to the specified path)
+Linux,mv,Moves a file or folder to another location or renames files.
+Linux,Example,mv old_name.txt new_name.txt (renames old_name.txt to new_name.txt)
+Linux,touch,Creates a new empty file in a specific directory.
+Linux,Example,touch new_file.txt (creates a new empty file)
+Linux,file,Checks a file type.
+Linux,Example,file document.pdf (checks the type of document.pdf)
+Linux,zip,Compresses one or multiple files into a ZIP archive.
+Linux,Example,zip archive.zip file1.txt file2.txt (compresses file1.txt and file2.txt into archive.zip)
+Linux,unzip,Extracts a compressed file into your current working directory.
+Linux,Example,unzip archive.zip (extracts archive.zip)
+Linux,tar,Bundles multiple files or directories into an archive without compression.
+Linux,Example,tar -cfz archive.tar.gz file1.txt file2.txt (creates a gzipped tar archive)
+Linux,"nano, vi, and jed",Edit files.
+Linux,Example,nano my_file.txt (opens my_file.txt in nano editor)
+Linux,cat,Displays the content of a file.
+Linux,Example,cat file.txt (displays the content of file.txt)
+Linux,head,Displays the first 10 lines of a file.
+Linux,Example,head file.txt (displays the first 10 lines of file.txt)
+Linux,tail,Displays the last 10 lines of a file.
+Linux,Example,tail file.txt (displays the last 10 lines of file.txt)
+Linux,grep,Searches for a pattern in files.
+Linux,Example,"grep ""pattern"" file.txt (searches for ""pattern"" in file.txt)"
+Linux,sort,Sorts lines of text files.
+Linux,Example,sort file.txt (sorts the lines of file.txt alphabetically)
+Linux,wc,"Counts the number of lines, words, and characters in a file."
+Linux,Example,wc -l file.txt (counts the number of lines in file.txt)
+Linux,comm,Compares two sorted files line by line.
+Linux,Example,comm file1.txt file2.txt (compares file1.txt and file2.txt)
+Linux,diff,Compares two files and shows the differences.
+Linux,Example,diff file1.txt file2.txt (shows the differences between file1.txt and file2.txt)
+Linux,sed,Stream editor for filtering and transforming text.
+Linux,Example,"sed 's/old/new/g' file.txt (replaces all occurrences of ""old"" with ""new"" in file.txt)"
+Linux,awk,Pattern scanning and processing language.
+Linux,Example,awk '{print $1}' file.txt (prints the first field of each line in file.txt)
+Linux,find,Searches for files in a directory hierarchy.
+Linux,Example,"find . -name ""*.txt"" (finds all .txt files in the current directory and its subdirectories)"
+Linux,locate,Finds files by name.
+Linux,Example,locate filename.txt (finds filename.txt using a database)
+Linux,whereis,"Locates the binary, source, and manual page files for a command."
+Linux,Example,whereis ls (locates the ls command)
+Linux,which,Locates a command.
+Linux,Example,which python (locates the python executable)
+Linux,df,Displays disk space usage.
+Linux,Example,df -h (displays disk space usage in human-readable format)
+Linux,du,Displays disk usage of files and directories.
+Linux,Example,du -sh (displays total disk usage of the current directory in human-readable format)
+Linux,free,Displays the amount of free and used memory in the system.
+Linux,Example,free -h (displays memory usage in human-readable format)
+Linux,top,Displays Linux processes.
+Linux,Example,top (shows a dynamic real-time view of running processes)
+Linux,htop,Interactive process viewer.
+Linux,Example,htop (provides an interactive process viewer)
+Linux,ps,Displays information about running processes.
+Linux,Example,ps aux (displays all running processes)
+Linux,kill,Terminates a process.
+Linux,Example,kill 1234 (terminates the process with PID 1234)
+Linux,killall,Kills processes by name.
+Linux,Example,killall firefox (kills all firefox processes)
+Linux,service,Controls system services.
+Linux,Example,service apache2 start (starts the apache2 service)
+Linux,systemctl,Controls the systemd system and service manager.
+Linux,Example,systemctl status apache2 (checks the status of the apache2 service)
+Linux,chmod,Changes file permissions.
+Linux,Example,"chmod 755 script.sh (gives read, write, and execute permissions to the owner, and read and execute to others)"
+Linux,chown,Changes file owner and group.
+Linux,Example,chown user:group file.txt (changes the owner and group of file.txt)
+Linux,su,Switches user.
+Linux,Example,su - username (switches to username)
+Linux,sudo,"Executes a command as another user, typically the superuser."
+Linux,Example,sudo apt update (updates package lists with superuser privileges)
+Linux,passwd,Changes user password.
+Linux,Example,passwd (changes the password for the current user)
+Linux,useradd,Creates a new user.
+Linux,Example,useradd newuser (creates a new user named newuser)
+Linux,userdel,Deletes a user account.
+Linux,Example,userdel olduser (deletes the user olduser)
+Linux,usermod,Modifies a user account.
+Linux,Example,usermod -aG sudo newuser (adds newuser to the sudo group)
+Linux,groupadd,Creates a new group.
+Linux,Example,groupadd newgroup (creates a new group named newgroup)
+Linux,groupdel,Deletes a group.
+Linux,Example,groupdel oldgroup (deletes the group oldgroup)
+Linux,groupmod,Modifies a group.
+Linux,Example,groupmod -n newname oldname (renames oldname group to newname)
+Linux,apt,Package management utility for Debian-based systems.
+Linux,Example,apt install package_name (installs package_name)
+Linux,dnf,Package management utility for RPM-based systems.
+Linux,Example,dnf install package_name (installs package_name)
+Linux,yum,Package management utility for RPM-based systems (older version of dnf).
+Linux,Example,yum install package_name (installs package_name)
+Linux,ssh,Secure Shell client for remote access.
+Linux,Example,ssh user@hostname (connects to hostname as user)
+Linux,scp,Secure copy protocol for copying files between hosts.
+Linux,Example,scp file.txt user@hostname:/path/to/destination (copies file.txt to remote host)
+Linux,r sync,Remote synchronization for files and directories.
+Linux,Example,rsync -avz source/ user@hostname:/path/to/destination (synchronizes source directory to remote host)
+Linux,wget,Non-interactive network downloader.
+Linux,Example,wget https://example.com/file.zip (downloads file.zip from the URL)
+Linux,curl,Tool for transferring data with URL syntax.
+Linux,Example,curl -O https://example.com/file.txt (downloads file.txt from the URL)
+Linux,ifconfig,Configures network interfaces.
+Linux,Example,ifconfig eth0 up (brings up the eth0 interface)
+Linux,ip,"Shows/manipulates routing, devices, policy routing and tunnels."
+Linux,Example,ip addr show (shows IP addresses of all network interfaces)
+Linux,route,Shows/manipulates the IP routing table.
+Linux,Example,route -n (shows the routing table)
+Linux,netstat,"Displays network connections, routing tables, interface statistics, etc."
+Linux,Example,netstat -tuln (displays listening TCP and UDP ports)
+Linux,ping,Sends ICMP ECHO_REQUEST packets to network hosts.
+Linux,Example,ping google.com (pings google.com)
+Linux,tracert,Traces the route to a host.
+Linux,Example,tracert google.com (traces the route to google.com)
+Linux,nslookup,Queries Internet domain name servers.
+Linux,Example,nslookup google.com (looks up DNS information for google.com)
+Linux,dig,DNS lookup utility.
+Linux,Example,dig google.com (performs a DNS lookup for google.com)
+Linux,history,Displays the command history.
+Linux,Example,history (displays previously executed commands)
+Linux,alias,Creates an alias for a command.
+Linux,Example,alias ll='ls -alF' (creates an alias 'll' for 'ls -alF')
+Linux,unalias,Removes an alias.
+Linux,Example,unalias ll (removes the alias 'll')
+Linux,man,Displays the manual page for a command.
+Linux,Example,man ls (displays the manual page for ls)
+Linux,whatis,Displays a one-line description of a command.
+Linux,Example,whatis ls (displays a brief description of ls)
+Linux,clear,Clears the terminal screen.
+Linux,Example,clear (clears the terminal screen)
+Linux,reboot,Reboots the system.
+Linux,Example,reboot (reboots the system)
+Linux,shutdown,Shuts down the system.
+Linux,Example,shutdown -h now (shuts down the system immediately)
+Cisco IOS,enable,Used to access Privileged Exec mode.
+Cisco IOS,config terminal (or config t),Used to access Global Configuration mode.
+Cisco IOS,interface <interface-type> <interface-number>,Enters Interface Configuration mode.
+Cisco IOS,interface <interface-type> <interface-number>.<subinterface-number>,Enters Subinterface Configuration mode.
+Cisco IOS,router <routing-protocol>,Enters Router Configuration mode.
+Cisco IOS,line <line-type> <line-number>,Enters Line Configuration mode.
+Cisco IOS,exit,Used to move back one level in the configuration mode hierarchy.
+Cisco IOS,end,Used to immediately return to Privileged EXEC mode from any configuration mode.
+Cisco IOS,show running-config (or show run),Displays the active configuration stored in the device's memory.
+Cisco IOS,show startup-config,"Displays the saved configuration stored in the device's NVRAM, which will be loaded when the device starts up."
+Cisco IOS,copy running-config startup-config,Replaces the startup config with the active config.
+Cisco IOS,copy startup-config running-config,Merges the startup config with the currently active config in RAM.
+Cisco IOS,write erase / erase startup-config,Deletes the startup config.
+Cisco IOS,Ctrl+Z,Instantly exits any configuration mode and returns to Privileged EXEC mode.
+Cisco IOS,Tab key,Auto-completes partial commands or shows possible completion options.
+Cisco IOS,Up & down arrow keys,Cycles through previous commands.
+Cisco IOS,show history,Displays the command history buffer.
+Cisco IOS,hostname <name>,Renames a device.
+Cisco IOS,ip address <IP-address> <subnet-mask>,Assigns an IP address and subnet mask to an interface.
+Cisco IOS,no shutdown,Enables an interface.
+Cisco IOS,enable password <pass-value>,Defines the password required when using the enable command.
+Cisco IOS,enable secret <pass-value>,Sets the password required for any user to enter enable mode and encrypts it.
+Cisco IOS,service password-encryption,"Directs the Cisco IOS software to encrypt the passwords, CHAP secrets and similar data saved in its configuration file."
+Cisco IOS,banner motd #Unauthorized access prohibited#,Configures a message of the day (motd) banner.
+Cisco IOS,banner login #Please enter your credentials#,Configures a login banner.
+Cisco IOS,banner exec #Welcome to the network#,Configures an exec banner.
+Cisco IOS,vlan <vlan-id>,Creates a VLAN.
+Cisco IOS,Vlan <vlan-name>,Assigns a name to the VLAN.
+Cisco IOS,vlan switchport access vlan <vlan-id>,Sets the VLAN that the interface belongs to.
+Cisco IOS,no vlan <vlan-id>,Deletes a VLAN.
+Cisco IOS,show vlan,Displays the VLAN configuration.
