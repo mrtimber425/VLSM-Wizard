@@ -1,282 +1,313 @@
-import sys
+import tkinter as tk
+from tkinter import ttk, messagebox, filedialog
 import ipaddress
-import random
-import csv
-import numpy as np
 import matplotlib.pyplot as plt
-from PyQt5.QtWidgets import (
-    QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton,
-    QTableWidget, QTableWidgetItem, QTabWidget, QMessageBox, QHBoxLayout,
-    QScrollArea, QFrame, QTextEdit, QFileDialog, QCheckBox
-)
-from PyQt5.QtGui import QFont
-from PyQt5.QtCore import Qt
+import csv
+import pandas as pd
+import os
 
-class SubnetCalculator(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Professional Subnet Calculator")
-        self.setMinimumSize(1200, 700)
+CLI_DATASET_PATH = "commands_dataset.csv"  # Adjust if needed
 
-        self.dark_mode = False
-        self.tabs = QTabWidget()
-        self.tabs.setStyleSheet("QTabBar::tab { height: 30px; width: 150px; font-weight: bold; }")
-        self.tabs.addTab(self.create_ip_tools_tab(), "IP Tools")
-        self.tabs.addTab(self.create_vlsm_tab(), "VLSM Setup")
-        self.tabs.addTab(self.create_result_tab(), "VLSM Results")
+class SubnetCalculatorApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Interactive Subnet Calculator")
+        self.root.geometry("1280x800")
 
-        layout = QVBoxLayout()
-        self.theme_toggle = QCheckBox("🌙 Dark Mode")
-        self.theme_toggle.stateChanged.connect(self.toggle_dark_mode)
-        layout.addWidget(self.theme_toggle)
-        layout.addWidget(self.tabs)
-        self.setLayout(layout)
+        self.style = ttk.Style()
+        self.style.configure("TNotebook.Tab", padding=[10, 5], font=("Segoe UI", 11, "bold"))
+        self.style.configure("TButton", padding=6)
+        self.style.configure("Treeview.Heading", font=("Segoe UI", 10, "bold"))
 
-    def toggle_dark_mode(self):
-        if self.theme_toggle.isChecked():
-            self.setStyleSheet("background-color: #2b2b2b; color: #f0f0f0;")
-        else:
-            self.setStyleSheet("")
+        self.full_ip_details = ""
+        self.chart_data = []
+
+        self.tab_control = ttk.Notebook(self.root)
+        self.create_ip_tools_tab()
+        self.create_vlsm_tab()
+        self.create_result_tab()
+        self.create_cli_tab()
+        self.tab_control.pack(expand=1, fill="both")
 
     def create_ip_tools_tab(self):
-        tab = QWidget()
-        layout = QVBoxLayout()
+        tab = ttk.Frame(self.tab_control)
+        self.tab_control.add(tab, text="🧮 IP Tools")
 
-        header = QLabel("IP Conversion and Validation")
-        header.setFont(QFont("Arial", 14, QFont.Bold))
-        layout.addWidget(header)
+        frame = ttk.Frame(tab, padding=20)
+        frame.pack()
 
-        self.dec_input = QLineEdit()
-        self.bin_input = QLineEdit()
+        ttk.Label(frame, text="Decimal IP:").pack()
+        self.dec_entry = tk.Entry(frame, font=("Consolas", 12))
+        self.dec_entry.pack()
 
-        layout.addWidget(QLabel("Decimal IP:"))
-        layout.addWidget(self.dec_input)
-        layout.addWidget(QLabel("Binary IP:"))
-        layout.addWidget(self.bin_input)
+        ttk.Label(frame, text="Binary IP:").pack()
+        self.bin_entry = tk.Entry(frame, font=("Consolas", 12))
+        self.bin_entry.pack()
 
-        dec_to_bin_btn = QPushButton("Decimal to Binary")
-        bin_to_dec_btn = QPushButton("Binary to Decimal")
+        btns = ttk.Frame(frame)
+        btns.pack(pady=10)
+        ttk.Button(btns, text="Decimal → Binary", command=self.dec_to_bin).grid(row=0, column=0, padx=5)
+        ttk.Button(btns, text="Binary → Decimal", command=self.bin_to_dec).grid(row=0, column=1, padx=5)
 
-        dec_to_bin_btn.clicked.connect(self.dec_to_bin)
-        bin_to_dec_btn.clicked.connect(self.bin_to_dec)
-
-        layout.addWidget(dec_to_bin_btn)
-        layout.addWidget(bin_to_dec_btn)
-
-        self.validator_input = QLineEdit()
-        self.validator_result = QLineEdit()
-        self.validator_result.setReadOnly(True)
-
-        validate_btn = QPushButton("Validate IP")
-        validate_btn.clicked.connect(self.validate_ip)
-
-        layout.addWidget(QLabel("IP Address to Validate:"))
-        layout.addWidget(self.validator_input)
-        layout.addWidget(validate_btn)
-        layout.addWidget(QLabel("Validation Result:"))
-        layout.addWidget(self.validator_result)
-
-        tab.setLayout(layout)
-        return tab
-
+        ttk.Label(frame, text="Validate IP:").pack(pady=(10, 0))
+        self.validate_entry = tk.Entry(frame, font=("Consolas", 12))
+        self.validate_entry.pack()
+        self.validation_result = tk.StringVar()
+        ttk.Label(frame, textvariable=self.validation_result, foreground="blue").pack()
+        ttk.Button(frame, text="Check IP Validity", command=self.validate_ip).pack(pady=5)
     def create_vlsm_tab(self):
-        tab = QWidget()
-        layout = QVBoxLayout()
+        tab = ttk.Frame(self.tab_control)
+        self.tab_control.add(tab, text="📐 VLSM Setup")
 
-        self.network_input = QLineEdit()
-        layout.addWidget(QLabel("Base Network (e.g. 192.168.1.0/24):"))
-        layout.addWidget(self.network_input)
+        frame = ttk.Frame(tab, padding=20)
+        frame.pack()
 
-        self.subnet_host_inputs = []
-        self.subnet_count_input = QLineEdit()
-        layout.addWidget(QLabel("Number of Subnets:"))
-        layout.addWidget(self.subnet_count_input)
+        ttk.Label(frame, text="Base Network (e.g. 192.168.1.0/24):").pack()
+        self.base_network_entry = tk.Entry(frame)
+        self.base_network_entry.pack()
 
-        gen_fields_btn = QPushButton("Generate Subnet Fields")
-        gen_fields_btn.clicked.connect(self.generate_subnet_fields)
-        layout.addWidget(gen_fields_btn)
+        ttk.Label(frame, text="Number of Subnets:").pack()
+        self.subnet_count_entry = tk.Entry(frame)
+        self.subnet_count_entry.pack()
 
-        scroll_area = QScrollArea()
-        scroll_area.setWidgetResizable(True)
-        scroll_container = QWidget()
-        self.subnet_host_layout = QVBoxLayout(scroll_container)
-        scroll_area.setWidget(scroll_container)
-        layout.addWidget(scroll_area)
+        ttk.Button(frame, text="Generate Subnet Fields", command=self.generate_subnet_fields).pack(pady=10)
+        self.subnet_frame = ttk.Frame(frame)
+        self.subnet_frame.pack()
 
-        calc_btn = QPushButton("Calculate Optimal VLSM")
-        calc_btn.setStyleSheet("background-color: #4CAF50; color: white; font-weight: bold;")
-        calc_btn.clicked.connect(self.calculate_vlsm_accurate)
-        layout.addWidget(calc_btn)
-
-        tab.setLayout(layout)
-        return tab
-
-    def create_result_tab(self):
-        tab = QWidget()
-        layout = QVBoxLayout()
-
-        self.result_table = QTableWidget()
-        layout.addWidget(self.result_table)
-
-        export_btn = QPushButton("Export to CSV")
-        export_btn.clicked.connect(self.export_to_csv)
-        layout.addWidget(export_btn)
-
-        chart_btn = QPushButton("Show IP Allocation Chart")
-        chart_btn.clicked.connect(self.show_ip_chart)
-        layout.addWidget(chart_btn)
-
-        layout.addWidget(QLabel("Available IPs in Each Subnet:"))
-        self.filter_input = QLineEdit()
-        self.filter_input.setPlaceholderText("Search IP or Subnet name...")
-        self.filter_input.textChanged.connect(self.apply_filter)
-        layout.addWidget(self.filter_input)
-
-        self.detail_text = QTextEdit()
-        self.detail_text.setReadOnly(True)
-        layout.addWidget(self.detail_text)
-
-        tab.setLayout(layout)
-        return tab
-
-    def apply_filter(self):
-        query = self.filter_input.text().strip().lower()
-        filtered = "\n".join([line for line in self.full_ip_details.splitlines() if query in line.lower()])
-        self.detail_text.setPlainText(filtered)
-
-    def export_to_csv(self):
-        path, _ = QFileDialog.getSaveFileName(self, "Save CSV", "subnets.csv", "CSV Files (*.csv)")
-        if path:
-            with open(path, 'w', newline='') as file:
-                writer = csv.writer(file)
-                headers = [self.result_table.horizontalHeaderItem(i).text() for i in range(self.result_table.columnCount())]
-                writer.writerow(headers)
-                for row in range(self.result_table.rowCount()):
-                    writer.writerow([self.result_table.item(row, col).text() for col in range(self.result_table.columnCount())])
-            QMessageBox.information(self, "Exported", f"CSV exported to: {path}")
-
-    def show_ip_chart(self):
-        if not hasattr(self, 'chart_data') or not self.chart_data:
-            QMessageBox.warning(self, "Error", "No chart data available. Run a calculation first.")
-            return
-        labels, sizes = zip(*self.chart_data)
-        plt.figure(figsize=(8, 6))
-        plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140)
-        plt.axis('equal')
-        plt.title("IP Allocation by Subnet")
-        plt.show()
+        ttk.Button(frame, text="🔍 Calculate Optimal VLSM", command=self.calculate_vlsm).pack(pady=10)
 
     def generate_subnet_fields(self):
-        count = self.subnet_count_input.text().strip()
-        if not count.isdigit():
-            QMessageBox.warning(self, "Error", "Invalid subnet count")
+        for widget in self.subnet_frame.winfo_children():
+            widget.destroy()
+        self.subnet_inputs = []
+
+        try:
+            count = int(self.subnet_count_entry.get())
+        except ValueError:
+            messagebox.showerror("Error", "Invalid number of subnets.")
             return
 
-        self.subnet_host_inputs.clear()
-        while self.subnet_host_layout.count():
-            child = self.subnet_host_layout.takeAt(0)
-            if child.widget():
-                child.widget().deleteLater()
-
-        for i in range(int(count)):
-            input_field = QLineEdit()
-            input_field.setPlaceholderText(f"Host count for Subnet {i+1}")
-            self.subnet_host_layout.addWidget(input_field)
-            self.subnet_host_inputs.append(input_field)
+        for i in range(count):
+            ttk.Label(self.subnet_frame, text=f"Hosts for Subnet {i+1}:").grid(row=i, column=0, sticky="e")
+            entry = tk.Entry(self.subnet_frame)
+            entry.grid(row=i, column=1)
+            self.subnet_inputs.append(entry)
 
     def calculate_min_prefix(self, host_count):
         for prefix in range(32, 0, -1):
             if (2 ** (32 - prefix)) >= (host_count + 2):
                 return prefix
         raise ValueError("Cannot assign subnet for host count")
+    def create_vlsm_tab(self):
+        tab = ttk.Frame(self.tab_control)
+        self.tab_control.add(tab, text="📐 VLSM Setup")
 
-    def calculate_vlsm_accurate(self):
+        frame = ttk.Frame(tab, padding=20)
+        frame.pack()
+
+        ttk.Label(frame, text="Base Network (e.g. 192.168.1.0/24):").pack()
+        self.base_network_entry = tk.Entry(frame)
+        self.base_network_entry.pack()
+
+        ttk.Label(frame, text="Number of Subnets:").pack()
+        self.subnet_count_entry = tk.Entry(frame)
+        self.subnet_count_entry.pack()
+
+        ttk.Button(frame, text="Generate Subnet Fields", command=self.generate_subnet_fields).pack(pady=10)
+        self.subnet_frame = ttk.Frame(frame)
+        self.subnet_frame.pack()
+
+        ttk.Button(frame, text="🔍 Calculate Optimal VLSM", command=self.calculate_vlsm).pack(pady=10)
+
+    def generate_subnet_fields(self):
+        for widget in self.subnet_frame.winfo_children():
+            widget.destroy()
+        self.subnet_inputs = []
+
         try:
-            base = self.network_input.text().strip()
-            subnet_reqs = []
-            for idx, input_field in enumerate(self.subnet_host_inputs):
-                val = input_field.text().strip()
-                if not val.isdigit():
-                    raise ValueError(f"Subnet {idx+1} has invalid host count")
-                subnet_reqs.append((f"Subnet {idx+1}", int(val)))
+            count = int(self.subnet_count_entry.get())
+        except ValueError:
+            messagebox.showerror("Error", "Invalid number of subnets.")
+            return
 
-            net = ipaddress.IPv4Network(base, strict=False)
+        for i in range(count):
+            ttk.Label(self.subnet_frame, text=f"Hosts for Subnet {i+1}:").grid(row=i, column=0, sticky="e")
+            entry = tk.Entry(self.subnet_frame)
+            entry.grid(row=i, column=1)
+            self.subnet_inputs.append(entry)
+
+    def calculate_min_prefix(self, host_count):
+        for prefix in range(32, 0, -1):
+            if (2 ** (32 - prefix)) >= (host_count + 2):
+                return prefix
+        raise ValueError("Cannot assign subnet for host count")
+    def create_result_tab(self):
+        tab = ttk.Frame(self.tab_control)
+        self.tab_control.add(tab, text="📊 Results")
+
+        frame = ttk.Frame(tab, padding=10)
+        frame.pack(fill="both", expand=True)
+
+        self.vlsm_table = ttk.Treeview(frame, columns=("Subnet", "Network", "Mask", "First", "Last", "Broadcast"), show="headings")
+        for col in self.vlsm_table["columns"]:
+            self.vlsm_table.heading(col, text=col)
+        self.vlsm_table.pack(fill="x")
+
+        btns = ttk.Frame(frame)
+        btns.pack(pady=5)
+        ttk.Button(btns, text="💾 Export CSV", command=self.export_to_csv).pack(side="left", padx=5)
+        ttk.Button(btns, text="📈 Show Chart", command=self.show_chart).pack(side="left", padx=5)
+
+        self.detail_text = tk.Text(frame, height=15)
+        self.detail_text.pack(fill="both", expand=True)
+
+    def calculate_vlsm(self):
+        try:
+            net = ipaddress.IPv4Network(self.base_network_entry.get(), strict=False)
             current = net.network_address
-            self.chart_data = []
-            existing_subnets = []
+            subnet_reqs = [(f"Subnet {i+1}", int(e.get())) for i, e in enumerate(self.subnet_inputs)]
 
             subnet_reqs.sort(key=lambda x: x[1], reverse=True)
+            self.chart_data = []
+            self.full_ip_details = ""
+            self.vlsm_table.delete(*self.vlsm_table.get_children())
+            existing_subnets = []
 
-            self.result_table.setColumnCount(6)
-            self.result_table.setHorizontalHeaderLabels([
-                "Subnet", "Network Address", "Subnet Mask", "First Host", "Last Host", "Broadcast"])
-
-            results = []
-            details = ""
             for name, hosts in subnet_reqs:
                 prefix = self.calculate_min_prefix(hosts)
                 subnet = ipaddress.IPv4Network((current, prefix), strict=False)
                 for existing in existing_subnets:
                     if subnet.overlaps(existing):
-                        raise ValueError(f"Overlap detected with {existing} and {subnet}")
+                        raise ValueError("Overlapping subnet detected")
                 existing_subnets.append(subnet)
                 first = subnet.network_address + 1
                 last = subnet.broadcast_address - 1
-                results.append([
-                    name,
-                    f"{subnet.network_address}/{prefix}",
-                    str(subnet.netmask),
-                    str(first),
-                    str(last),
-                    str(subnet.broadcast_address)
-                ])
+                self.vlsm_table.insert("", "end", values=(
+                    name, f"{subnet.network_address}/{prefix}", str(subnet.netmask),
+                    str(first), str(last), str(subnet.broadcast_address)))
                 self.chart_data.append((name, subnet.num_addresses))
-                ip_list = list(subnet.hosts())
-                details += f"{name} ({subnet.network_address}/{prefix}):\n"
-                for ip in ip_list:
-                    details += f"  {ip}\n"
-                details += "\n"
+                self.full_ip_details += f"{name} ({subnet}):\n" + '\n'.join([f"  {ip}" for ip in subnet.hosts()]) + "\n\n"
                 current = subnet.broadcast_address + 1
 
-            self.result_table.setRowCount(len(results))
-            for row_idx, row in enumerate(results):
-                for col_idx, val in enumerate(row):
-                    self.result_table.setItem(row_idx, col_idx, QTableWidgetItem(val))
-
-            self.full_ip_details = details
-            self.detail_text.setPlainText(details)
-            self.tabs.setCurrentIndex(2)
-
+            self.detail_text.delete("1.0", tk.END)
+            self.detail_text.insert(tk.END, self.full_ip_details)
+            self.tab_control.select(2)
         except Exception as e:
-            QMessageBox.warning(self, "Error", str(e))
+            messagebox.showerror("Error", str(e))
+
+    def export_to_csv(self):
+        file = filedialog.asksaveasfilename(defaultextension=".csv")
+        if not file:
+            return
+        with open(file, "w", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow(["Subnet", "Network", "Mask", "First", "Last", "Broadcast"])
+            for row in self.vlsm_table.get_children():
+                writer.writerow(self.vlsm_table.item(row)["values"])
+        messagebox.showinfo("Exported", f"CSV saved to {file}")
+
+    def show_chart(self):
+        if not self.chart_data:
+            messagebox.showwarning("Warning", "No data to chart.")
+            return
+        labels, sizes = zip(*self.chart_data)
+        plt.pie(sizes, labels=labels, autopct='%1.1f%%')
+        plt.title("IP Allocation by Subnet")
+        plt.axis("equal")
+        plt.show()
+
+    def create_cli_tab(self):
+        tab = ttk.Frame(self.tab_control)
+        self.tab_control.add(tab, text="📚 CLI Cheatsheet")
+
+        frame = ttk.Frame(tab, padding=10)
+        frame.pack(fill="both", expand=True)
+
+        # Load CLI dataset
+        if os.path.exists(CLI_DATASET_PATH):
+            self.cli_df = pd.read_csv(CLI_DATASET_PATH)
+        else:
+            messagebox.showerror("Error", f"{CLI_DATASET_PATH} not found.")
+            self.cli_df = pd.DataFrame(columns=["OS", "Command", "Function"])
+
+        # OS dropdown filter
+        os_frame = ttk.Frame(frame)
+        os_frame.pack(fill="x", pady=5)
+        ttk.Label(os_frame, text="Filter by OS:").pack(side="left")
+        self.selected_os = tk.StringVar(value="All")
+        os_options = ["All"] + sorted(self.cli_df["OS"].dropna().unique().tolist())
+        os_menu = ttk.OptionMenu(os_frame, self.selected_os, "All", *os_options,
+                                 command=lambda _: self.update_cli_results())
+        os_menu.pack(side="left", padx=5)
+
+        # Search bar
+        ttk.Label(frame, text="Search by keyword:").pack(anchor="w")
+        self.cli_search = tk.Entry(frame)
+        self.cli_search.pack(fill="x", pady=(0, 5))
+        self.cli_search.bind("<KeyRelease>", lambda e: self.update_cli_results())
+
+        # Scrollable output area
+        output_frame = ttk.Frame(frame)
+        output_frame.pack(fill="both", expand=True)
+        self.cli_output = tk.Text(output_frame, wrap="word")
+        scrollbar = ttk.Scrollbar(output_frame, orient="vertical", command=self.cli_output.yview)
+        self.cli_output.configure(yscrollcommand=scrollbar.set)
+        self.cli_output.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+
+        self.update_cli_results()
+
+    def update_cli_results(self):
+        query = self.cli_search.get().lower()
+        selected_os = self.selected_os.get()
+
+        df = self.cli_df.copy()
+        if selected_os != "All":
+            df = df[df["OS"].str.lower() == selected_os.lower()]
+
+        if query:
+            df = df[df.apply(lambda row: query in str(row["Command"]).lower() or query in str(row["Function"]).lower(),
+                             axis=1)]
+
+        self.cli_output.delete("1.0", tk.END)
+
+        if df.empty:
+            self.cli_output.insert(tk.END, "No matching commands found.\n")
+            return
+
+        grouped = df.groupby("OS")
+        for os_type, group in grouped:
+            self.cli_output.insert(tk.END, f"\n=== {os_type.upper()} Commands ===\n")
+            for _, row in group.iterrows():
+                self.cli_output.insert(tk.END, f"\n• {row['Command']}\n  ➜ {row['Function']}\n")
 
     def dec_to_bin(self):
         try:
-            ip = self.dec_input.text().strip()
+            ip = self.dec_entry.get().strip()
             binary = '.'.join([format(int(x), '08b') for x in ip.split('.')])
-            self.bin_input.setText(binary)
+            self.bin_entry.delete(0, tk.END)
+            self.bin_entry.insert(0, binary)
         except:
-            QMessageBox.warning(self, "Error", "Invalid Decimal IP")
+            messagebox.showerror("Error", "Invalid Decimal IP")
 
     def bin_to_dec(self):
         try:
-            binary = self.bin_input.text().strip()
+            binary = self.bin_entry.get().strip()
             decimal = '.'.join([str(int(b, 2)) for b in binary.split('.')])
-            self.dec_input.setText(decimal)
+            self.dec_entry.delete(0, tk.END)
+            self.dec_entry.insert(0, decimal)
         except:
-            QMessageBox.warning(self, "Error", "Invalid Binary IP")
+            messagebox.showerror("Error", "Invalid Binary IP")
 
     def validate_ip(self):
-        ip = self.validator_input.text().strip()
+        ip = self.validate_entry.get().strip()
         try:
             ipaddress.ip_address(ip)
-            self.validator_result.setText("Valid")
+            self.validation_result.set("✅ Valid IP")
         except:
-            self.validator_result.setText("Invalid")
+            self.validation_result.set("❌ Invalid IP")
 
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    win = SubnetCalculator()
-    win.show()
-    sys.exit(app.exec_())
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = SubnetCalculatorApp(root)
+    root.mainloop()
