@@ -1,0 +1,26 @@
+# Requirements for VLSM Wizard Application
+# Core data science and visualization packages
+matplotlib
+networkx
+pandas
+numpy
+requests
+
+# AI/ML packages (optional - for AI troubleshooting features)
+transformers
+torch
+
+# Note: The following packages are part of Python standard library and don't need installation:
+# - tkinter (GUI framework - included with Python)
+# - ipaddress (IP address manipulation)
+# - csv (CSV file handling)
+# - os (operating system interface)
+# - json (JSON data handling)
+# - subprocess (process management)
+# - threading (threading support)
+# - socket (network socket interface)
+# - struct (binary data handling)
+# - random (random number generation)
+# - datetime (date and time handling)
+# - time (time-related functions)
+
